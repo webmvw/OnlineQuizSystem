@@ -37,6 +37,23 @@
             </a>
           </li>
 
+          <li class="nav-item {{ ($prefix == '/question') ? 'menu-is-opening menu-open': '' }}">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Question Management
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('question.view') }}" class="nav-link {{ ($route == 'question.view') ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Question</p>
+                </a>
+              </li>
+            </ul>
+          </li>  
 
         </ul>
       </nav>
