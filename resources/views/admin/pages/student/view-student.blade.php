@@ -47,6 +47,7 @@
                       <th>Name</th>
                       <th>ID No</th>
                       <th>Phone</th>
+                      <th>Email</th>
                       <th>Address</th>
                       @if(Auth::user()->role_id == 1)
                       <th>code</th>
@@ -68,6 +69,7 @@
                           <td>{{ $value->name }}</td>
                           <td>{{ $value->id_no }}</td>
                           <td>{{ $value->mobile }}</td>
+                          <td>{{ $value->email }}</td>
                           <td>{{ $value->address }}</td>
                           @if(Auth::user()->role_id == 1)
                           <td>{{ $value->code }}</td>
@@ -87,6 +89,7 @@
                         <th>Name</th>
                         <th>ID No</th>
                         <th>Phone</th>
+                        <th>Email</th>
                         <th>Address</th>
                         @if(Auth::user()->role_id == 1)
                         <th>code</th>
