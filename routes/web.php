@@ -78,4 +78,9 @@ Route::group(['middleware' => ['admin', 'auth']], function(){
 */
 Route::group(['middleware' => ['user', 'auth']], function(){
 	Route::get('user/dashboard', [App\Http\Controllers\User\UserController::class, 'index'])->name('user.dashboard');
+
+	Route::group(['prefix' => 'quiz_list'], function(){	
+		Route::get('/quiz/view', [App\Http\Controllers\User\StartQuizController::class, 'quizList'])->name('user.quiz.view');
+	});
+		
 });
