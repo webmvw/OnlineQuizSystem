@@ -32,7 +32,7 @@ Auth::routes();
 Route::group(['middleware' => ['admin', 'auth']], function(){
 	Route::get('admin/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.dashboard');
 
-	// setups management
+	// quiz management
 	Route::group(['prefix' => 'quiz_manage'], function(){
 		// quiz
 		Route::get('/quiz/view', [App\Http\Controllers\Admin\QuizController::class, 'view'])->name('quiz.view');
@@ -51,6 +51,19 @@ Route::group(['middleware' => ['admin', 'auth']], function(){
 		Route::post('/question/store', [App\Http\Controllers\Admin\QuestionController::class, 'store'])->name('question.store');
 		Route::get('/question/delete/{id}', [App\Http\Controllers\Admin\QuestionController::class, 'delete'])->name('question.delete');
 	});	
+
+
+	// student management
+	Route::group(['prefix' => 'student_manage'], function(){
+		// for student
+		Route::get('/student/view', [App\Http\Controllers\Admin\StudentController::class, 'view'])->name('student.view');
+		Route::get('/student/add', [App\Http\Controllers\Admin\StudentController::class, 'add'])->name('student.add');
+		Route::post('/student/store', [App\Http\Controllers\Admin\StudentController::class, 'store'])->name('student.store');
+		Route::get('/student/edit/{id}', [App\Http\Controllers\Admin\StudentController::class, 'edit'])->name('student.edit');
+		Route::post('/student/update/{id}', [App\Http\Controllers\Admin\StudentController::class, 'update'])->name('student.update');
+		Route::get('/student/delete/{id}', [App\Http\Controllers\Admin\StudentController::class, 'delete'])->name('student.delete');
+	});
+
 });
 
 
