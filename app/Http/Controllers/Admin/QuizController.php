@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use  App\Models\Quiz;
+use App\Models\Question;
+use App\Models\QuestionAnswer;
 
 class QuizController extends Controller
 {
@@ -16,6 +18,19 @@ class QuizController extends Controller
     public function view(){
     	$allData = Quiz::orderBy('id', 'desc')->get();
     	return view('admin.pages.quiz.view-quiz', compact('allData'));
+    }
+
+
+
+    /**
+     * Dispaly single quiz with question and answer
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function details($id){
+        $data['quiz'] = Quiz::find($id);
+        $data['questions'] = Question::where('quiz_id', $id)->get();
+        return view('admin.pages.quiz.details-quiz', $data);
     }
 
 
@@ -40,6 +55,7 @@ class QuizController extends Controller
     	$quiz->name = $request->quiz;
     	$quiz->total_mark = $request->total_mark;
     	$quiz->time = $request->time;
+        $quiz->total_question = $request->total_question;
     	$quiz->save();
     	return redirect()->route('quiz.view')->with('success', 'Quiz Added Success');
     }
@@ -70,6 +86,7 @@ class QuizController extends Controller
     	$quiz->name = $request->quiz;
     	$quiz->total_mark = $request->total_mark;
     	$quiz->time = $request->time;
+        $quiz->total_question = $request->total_question;
     	$quiz->save();
     	return redirect()->route('quiz.view')->with('success', 'Quiz Updated Success');
     }
@@ -87,4 +104,33 @@ class QuizController extends Controller
     	$quiz->delete();
     	return redirect()->route('quiz.view')->with('success', 'Quiz Deleted Success');
     }
+
+
+    /**
+     * active quiz and when quiz active then student see quiz list their profile
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function active($id){
+        $quiz = Quiz::find($id);
+        $quiz->status = '1';
+        $quiz->save();
+        return redirect()->back()->with('success', 'Quiz Actived Success');
+    }
+
+
+    /**
+     * deactivate quiz
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deactive($id){
+        $quiz = Quiz::find($id);
+        $quiz->status = '0';
+        $quiz->save();
+        return redirect()->back()->with('success', 'Quiz Deactived Success');
+    }
+
 }

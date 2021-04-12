@@ -41,10 +41,14 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-    	DB::transaction(function() use($request){
     		
-            // add question no
-            $getQuestion = Question::select('question_no')->where('quiz_id', $request->quiz)->get()->count();
+        // add question no
+        $getQuestion = Question::select('question_no')->where('quiz_id', $request->quiz)->get()->count();
+        $quiz = Quiz::find($request->quiz);
+        $totalQuestionOfQuiz = $quiz->total_question;
+
+        // check question number of total quiz question number
+        if($getQuestion < $totalQuestionOfQuiz){
             if($getQuestion == 0){
                 $question_no = 1;
             }else{
@@ -78,9 +82,11 @@ class QuestionController extends Controller
     			$question_answer->answer = $answers[$key];
     			$question_answer->save();
     		}
-    		
-    	});
-    	return redirect()->route('question.view')->with('success', 'Question Added Success');
+            return redirect()->route('question.view')->with('success', 'Question Added Success');
+		}else{
+            return redirect()->back()->with('warning', 'Maximum number of total question!!');
+        }
+    	
     }
 
 

@@ -37,7 +37,7 @@
             </a>
           </li>
 
-          <li class="nav-item {{ ($prefix == '/question') ? 'menu-is-opening menu-open': '' }}">
+          <li class="nav-item {{ ($prefix == '/quiz_manage') ? 'menu-is-opening menu-open': '' }}">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>

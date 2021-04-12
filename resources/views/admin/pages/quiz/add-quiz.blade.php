@@ -46,22 +46,28 @@
                     <div class="card-body">
                       @include('admin.partials.message')
                       <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                           <div class="form-group">
                             <label for="quiz">Quiz <span style="color:red">*</span></label>
                             <input type="text" name="quiz" class="form-control" id="quiz" placeholder="Enter Quiz Name">
                           </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                           <div class="form-group">
                             <label for="total_mark">Total Mark</label>
                             <input type="number" name="total_mark" id="total_mark" class="form-control" placeholder="Enter Total Mark">
                           </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                           <div class="form-group">
                             <label for="time">Time (Minute Count)</label>
                             <input type="number" name="time" id="time" class="form-control" placeholder="Ex: 10">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label for="total_question">Total Question</label>
+                            <input type="number" name="total_question" id="total_question" class="form-control" placeholder="Total Question">
                           </div>
                         </div>
                       </div>
@@ -98,6 +104,10 @@ $(function () {
         required: true,
         number: true,
       },
+      total_question:{
+        required: true,
+        number: true,
+      },
     },
     messages: {
       quiz: {
@@ -109,6 +119,10 @@ $(function () {
       },
       time: {
         required: "Please enter time",
+        number: "Invalid Input. Only number allowed",
+      },
+      total_question:{
+        required: "Please enter total question number",
         number: "Invalid Input. Only number allowed",
       },
     },

@@ -45,6 +45,7 @@
                       <th>Quiz Name</th>
                       <th>Total Mark</th>
                       <th>Time</th>
+                      <th>Total Question</th>
                       <th>Action</th>
                     </tr>
                     </thead>
@@ -55,13 +56,20 @@
                           <td>{{ $value->name }}</td>
                           <td>{{ $value->total_mark }}</td>
                           <td>{{ $value->time }} Minute</td>
+                          <td>{{ $value->total_question }}</td>
                           <td>
+                            <a href="{{ route('quiz.details.view', $value->id) }}" title="View" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                             <a href="{{ route('quiz.edit', $value->id) }}" title="Edit" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
                             @php
                             $question = App\Models\Question::where('quiz_id', $value->id)->get()->count();
                             @endphp
                             @if($question == 0)
                             <a href="{{ route('quiz.delete', $value->id) }}" onclick="return confirm('Are you sure to delete!');" title="Delete" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                            @endif
+                            @if($value->status == 0)
+                            <a href="{{ route('quiz.active', $value->id) }}" class="btn btn-sm btn-primary">Active</a>
+                            @else
+                            <a href="{{ route('quiz.deactive', $value->id) }}" class="btn btn-sm btn-warning">Deactive</a>
                             @endif
                           </td>
                         </tr>
@@ -74,6 +82,7 @@
                           <th>Quiz Name</th>
                           <th>Total Mark</th>
                           <th>Time</th>
+                          <th>Total Question</th>
                           <th>Action</th>
                         </tr>
                       </tfoot>

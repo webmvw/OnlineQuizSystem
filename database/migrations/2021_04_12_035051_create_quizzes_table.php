@@ -18,6 +18,8 @@ class CreateQuizzesTable extends Migration
             $table->string('name');
             $table->integer('total_mark');
             $table->integer('time');
+            $table->integer('total_question');
+            $table->integer('status')->default('0')->comment('1:active|0:inactive');
             $table->timestamps();
         });
     }
