@@ -2,7 +2,7 @@
 @extends('admin.partials.master')
 
 @section('title')
-  <title>Add Question | BdCollage</title>
+  <title>Add Question | Quiz System</title>
 @endsection
 
 @section('content')
@@ -46,13 +46,18 @@
                     <div class="card-body">
                       @include('admin.partials.message')
                       <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                           <div class="form-group">
-                            <label for="question_no">Question No</label>
-                            <input type="number" name="question_no" class="form-control" id="question_no" value="{{$question_no}}" style="background: #D8FDBA" readonly>
+                            <label for="quiz">Quiz Name</label>
+                            <select name="quiz" id="quiz" class="form-control select2">
+                              <option value="">Select Quiz Name</option>
+                              @foreach($quizzes as $quiz)
+                              <option value="{{$quiz->id}}">{{$quiz->name}}</option>
+                              @endforeach
+                            </select>
                           </div>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                           <div class="form-group">
                             <label for="question">Question <span style="color:red">*</span></label>
                             <input type="text" name="question" class="form-control" id="question" placeholder="Enter Question">
@@ -115,6 +120,9 @@
 $(function () {
   $('#quickForm').validate({
     rules: {
+      quiz:{
+        required: true,
+      },
       question: {
         required: true,
       },
@@ -136,6 +144,9 @@ $(function () {
       },
     },
     messages: {
+      quiz:{
+        required: "Please select quiz name",
+      },
       question: {
         required: "Please enter question.",
       },

@@ -15,6 +15,7 @@ class CreateQuestionAnswersTable extends Migration
     {
         Schema::create('question_answers', function (Blueprint $table) {
             $table->id();
+            $table->integer('quiz_id');
             $table->integer('question_no');
             $table->integer('right_answer')->comment('1:right answer|0:false answer');
             $table->string('answer');

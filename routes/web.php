@@ -34,12 +34,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin', 'auth']], function(
 
 	// setups management
 	Route::group(['prefix' => 'question'], function(){
-		// department
+		// quiz
+		Route::get('/quiz/view', [App\Http\Controllers\Admin\QuizController::class, 'view'])->name('quiz.view');
+		Route::get('/quiz/add', [App\Http\Controllers\Admin\QuizController::class, 'add'])->name('quiz.add');
+		Route::post('/quiz/store', [App\Http\Controllers\Admin\QuizController::class, 'store'])->name('quiz.store');
+		Route::get('/quiz/edit/{id}', [App\Http\Controllers\Admin\QuizController::class, 'edit'])->name('quiz.edit');
+		Route::post('/quiz/update/{id}', [App\Http\Controllers\Admin\QuizController::class, 'update'])->name('quiz.update');
+		Route::get('/quiz/delete/{id}', [App\Http\Controllers\Admin\QuizController::class, 'delete'])->name('quiz.delete');
+
+		// question
 		Route::get('/question/view', [App\Http\Controllers\Admin\QuestionController::class, 'view'])->name('question.view');
 		Route::get('/question/add', [App\Http\Controllers\Admin\QuestionController::class, 'add'])->name('question.add');
 		Route::post('/question/store', [App\Http\Controllers\Admin\QuestionController::class, 'store'])->name('question.store');
-		Route::get('/question/edit/{id}', [App\Http\Controllers\Admin\QuestionController::class, 'edit'])->name('question.edit');
-		Route::post('/question/update/{id}', [App\Http\Controllers\Admin\QuestionController::class, 'update'])->name('question.update');
 		Route::get('/question/delete/{id}', [App\Http\Controllers\Admin\QuestionController::class, 'delete'])->name('question.delete');
 	});	
 });

@@ -10,7 +10,7 @@
     <a href="{{ route('admin.dashboard') }}" class="brand-link">
       <img src="{{ asset('admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">BdCollage</span>
+      <span class="brand-text font-weight-light">Quiz System</span>
     </a>
 
     <!-- Sidebar -->
@@ -46,6 +46,12 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('quiz.view') }}" class="nav-link {{ ($route == 'quiz.view') ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Quiz</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="{{ route('question.view') }}" class="nav-link {{ ($route == 'question.view') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>

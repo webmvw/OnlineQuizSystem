@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Quiz;
 use App\Models\Question;
 use App\Models\QuestionAnswer;
 use DB;
@@ -28,13 +29,8 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function add(){
-    	$getQuestion = Question::select('question_no')->get()->count();
-    	if($getQuestion == 0){
-    		$question_no = 1;
-    	}else{
-    		$question_no = $getQuestion+1;
-    	}
-    	return view('admin.pages.question.add-question', compact('question_no'));
+        $quizzes = Quiz::orderBy('id', 'desc')->get();
+    	return view('admin.pages.question.add-question', compact('quizzes',));
     }
 
 
@@ -46,7 +42,15 @@ class QuestionController extends Controller
      */
     public function store(Request $request){
     	DB::transaction(function() use($request){
-    		$question_no = $request->question_no;
+    		
+            // add question no
+            $getQuestion = Question::select('question_no')->where('quiz_id', $request->quiz)->get()->count();
+            if($getQuestion == 0){
+                $question_no = 1;
+            }else{
+                $question_no = $getQuestion+1;
+            }
+
     		$question = $request->question;
     		$answers = array();
     		$answers[1] = $request->choice_one;
@@ -57,6 +61,7 @@ class QuestionController extends Controller
 
     		//store data in questions table
     		$table_question = new Question;
+            $table_question->quiz_id = $request->quiz;
     		$table_question->question_no = $question_no;
     		$table_question->question = $question;
     		$table_question->save();
@@ -67,6 +72,7 @@ class QuestionController extends Controller
     				$right_answer = 1;
     			}
     			$question_answer = new QuestionAnswer;
+                $question_answer->quiz_id = $request->quiz;
     			$question_answer->question_no = $question_no;
     			$question_answer->right_answer = $right_answer;
     			$question_answer->answer = $answers[$key];
@@ -76,5 +82,26 @@ class QuestionController extends Controller
     	});
     	return redirect()->route('question.view')->with('success', 'Question Added Success');
     }
+
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id){
+        DB::transaction(function() use($id){
+            $question = Question::find($id);
+            $question->delete();
+
+            $quiz_id = $question->quiz_id;
+            $question_no = $question->question_no;
+            $question_answer = QuestionAnswer::where('quiz_id', $quiz_id)->where('question_no', $question_no)->delete();
+        });
+        return redirect()->route('question.view')->with('success', 'Question Deleted Success');
+    }
+
 
 }

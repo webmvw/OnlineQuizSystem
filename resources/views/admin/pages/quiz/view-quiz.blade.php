@@ -1,7 +1,7 @@
 @extends('admin.partials.master')
 
 @section('title')
-  <title>Question | Quiz System</title>
+  <title>Quiz | Quiz System</title>
 @endsection
 
 @section('content')
@@ -12,12 +12,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Manage Question</h1>
+            <h1 class="m-0 text-dark">Manage Quiz</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-              <li class="breadcrumb-item active">Question</li>
+              <li class="breadcrumb-item active">Quiz</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -33,28 +33,36 @@
           <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="card-title">Question List</h3>
-                <a href="{{ route('question.add') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> Add Question</a>
+                <h3 class="card-title">Quiz List</h3>
+                <a href="{{ route('quiz.add') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> Add Quiz</a>
               </div>
               <!-- /.card-header -->
                 <div class="card-body">
                   <table id="example1" class="table table-bordered table-hover">
                     <thead>
                     <tr>
+                      <th>SL</th>
                       <th>Quiz Name</th>
-                      <th>Question No</th>
-                      <th>Question</th>
+                      <th>Total Mark</th>
+                      <th>Time</th>
                       <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                       @foreach($allData as $key=>$value)
                         <tr>
-                          <td>{{ $value->quiz->name }}</td>
-                          <td>{{ $value->question_no }}</td>
-                          <td>{{ $value->question }}</td>
+                          <td>{{ $key+1 }}</td>
+                          <td>{{ $value->name }}</td>
+                          <td>{{ $value->total_mark }}</td>
+                          <td>{{ $value->time }} Minute</td>
                           <td>
-                            <a href="{{ route('question.delete', $value->id) }}" onclick="return confirm('Are you sure to delete!');" title="Delete" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                            <a href="{{ route('quiz.edit', $value->id) }}" title="Edit" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                            @php
+                            $question = App\Models\Question::where('quiz_id', $value->id)->get()->count();
+                            @endphp
+                            @if($question == 0)
+                            <a href="{{ route('quiz.delete', $value->id) }}" onclick="return confirm('Are you sure to delete!');" title="Delete" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                            @endif
                           </td>
                         </tr>
                     @endforeach
@@ -62,9 +70,10 @@
                     </tbody>
                       <tfoot>
                         <tr>
+                          <th>SL</th>
                           <th>Quiz Name</th>
-                          <th>Question No</th>
-                          <th>Question</th>
+                          <th>Total Mark</th>
+                          <th>Time</th>
                           <th>Action</th>
                         </tr>
                       </tfoot>
