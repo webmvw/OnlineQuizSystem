@@ -1,7 +1,7 @@
 @extends('user.partials.master')
 
 @section('title')
-  <title>Quiz List | Quiz System</title>
+  <title>Complete Quiz | Quiz System</title>
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
-              <li class="breadcrumb-item active">Quiz List</li>
+              <li class="breadcrumb-item active">Result View</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -33,47 +33,45 @@
           <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="card-title">Quiz List</h3>
+                <h3 class="card-title">Complete Quiz List</h3>
               </div>
               <!-- /.card-header -->
                 <div class="card-body">
-                  <table id="example2" class="table table-bordered table-hover">
-                    <thead>
+                @php
+                $user_id = Auth::user()->id;
+                $student_quiz_result = App\Models\StudentQuizResult::where('user_id', $user_id)->orderBy('id', 'desc')->get();
+                @endphp
+                <table class="table table-striped" id="example2">
+                  <thead>
                     <tr>
                       <th>SL</th>
-                      <th>Quiz</th>
-                      <th>Total Question</th>
+                      <th>Quiz Name</th>
                       <th>Total Mark</th>
-                      <th>Time</th>
-                      <th>Action</th>
+                      <th>Result</th>
+                      <th>Date</th>
                     </tr>
-                    </thead>
-                    <tbody>
-                      @foreach($quizzes as $key=>$value)
-                        <tr>
-                          <td>{{ $key+1 }}</td>
-                          <td>{{ $value->name }}</td>
-                          <td>{{ $value->total_question }}</td>
-                          <td>{{ $value->total_mark }}</td>
-                          <td>{{ $value->time }} Minute</td>
-                          <td>
-                            <a href="{{ route('user.quiz.start', $value->id) }}" class="btn btn-success btn-sm">Start</a>
-                          </td>
-                        </tr>
-                      @endforeach
-
-                    </tbody>
-                      <tfoot>
-                        <tr>
-                          <th>SL</th>
-                          <th>Quiz</th>
-                          <th>Total Question</th>
-                          <th>Total Mark</th>
-                          <th>Time</th>
-                          <th>Action</th>
-                        </tr>
-                      </tfoot>
-                  </table>
+                  </thead>
+                  <tbody>
+                    @foreach($student_quiz_result as $key=>$value)
+                    <tr>
+                      <td>{{$key+1}}</td>
+                      <td>{{$value->quiz->name}}</td>
+                      <td>{{$value->total_mark}}</td>
+                      <td>{{$value->result}}</td>
+                      <td>{{date('F j, Y', strtotime($value->date))}}</td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>SL</th>
+                      <th>Quiz Name</th>
+                      <th>Total Mark</th>
+                      <th>Result</th>
+                      <th>Date</th>
+                    </tr>
+                  </tfoot>
+                </table>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer"></div>

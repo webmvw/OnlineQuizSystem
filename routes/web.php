@@ -81,6 +81,9 @@ Route::group(['middleware' => ['user', 'auth']], function(){
 
 	Route::group(['prefix' => 'quiz_list'], function(){	
 		Route::get('/quiz/view', [App\Http\Controllers\User\StartQuizController::class, 'quizList'])->name('user.quiz.view');
+		Route::get('/quiz/start/{id}', [App\Http\Controllers\User\StartQuizController::class, 'quizStart'])->name('user.quiz.start');
+		Route::post('/quiz/start/store', [App\Http\Controllers\User\StartQuizController::class, 'store'])->name('user.quiz.store');
+		Route::get('/complete/quiz/list', [App\Http\Controllers\User\StartQuizController::class, 'completeQuizList'])->name('user.complete.quiz.list');
 	});
 		
 });

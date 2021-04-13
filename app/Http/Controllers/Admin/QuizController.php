@@ -114,9 +114,16 @@ class QuizController extends Controller
      */
     public function active($id){
         $quiz = Quiz::find($id);
-        $quiz->status = '1';
-        $quiz->save();
-        return redirect()->back()->with('success', 'Quiz Actived Success');
+        $totalQuizQuestion = $quiz->total_question;
+        $questionCount = Question::where('quiz_id', $id)->get()->count();
+        if($questionCount == $totalQuizQuestion){
+            $quiz->status = '1';
+            $quiz->save();
+            return redirect()->back()->with('success', 'Quiz Actived Success');
+        }else{
+            return redirect()->back()->with('error', 'Incomplete Question.');
+        }
+        
     }
 
 
